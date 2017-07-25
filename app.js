@@ -20,17 +20,22 @@ Image.secondImgEl = document.getElementById('second_image');
 Image.thirdImgEl = document.getElementById('third_image');
 
 
-var other = [];
+var thing = [];
 function randomImage() {
-
   Image.productsDisplayed = [];
+
+  console.log(thing);
   for (var i = 0; i < 3; i++) {
-    other.push(randomIndex);
     var randomIndex = Math.floor(Math.random() * Image.all.length);
-    if (Image.productsDisplayed.includes(randomIndex)) {
+
+    if (Image.productsDisplayed.includes(randomIndex) || thing.includes(randomIndex)) {
       i--;
+
     } else {
+      thing.push(randomIndex);
       Image.productsDisplayed.push(randomIndex);
+
+
     }
   }
 
@@ -41,8 +46,10 @@ function randomImage() {
   Image.firstImgEl.src = Image.all[indexZero].source;
   Image.secondImgEl.src = Image.all[indexOne].source;
   Image.thirdImgEl.src = Image.all[indexTwo].source;
-
+thing.reverse();
+thing.length = 3;
 console.log('these images are ' + [Image.productsDisplayed]);
+// thing.push([Image.productsDisplayed]);
 }
 
 
