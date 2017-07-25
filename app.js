@@ -37,11 +37,12 @@ function randomImage() {
   for (var i = 0; i < 3; i++) {
     var randomIndex = Math.floor(Math.random() * Image.all.length);
       if (Image.productsDisplayed.includes(randomIndex) || previousImages.includes(randomIndex)) {
+        console.log('dupe');
         i--;
       } else {
         previousImages.push(randomIndex);
         Image.productsDisplayed.push(randomIndex);
-        Image.all[Image.productsDisplayed[i]].timesShown += 1;
+        Image.all[Image.productsDisplayed[i]].timesShown++;
     }
   }
   document.getElementById('click_countdown').innerHTML = totalClicks + ' clicks left';
@@ -63,21 +64,102 @@ function handleClick(e) {
   totalClicks--;
   for (var i = 0; i < Image.all.length; i++) {
     if (e.target.alt === Image.all[i].name) {
-      console.log(Image.firstImgEl.alt);
-      Image.all[i].timesClicked += 1;
-      console.log(Image.all[i].timesClicked);
-      randomImage();
+      Image.all[i].timesClicked++;
     }
+  }
     if (totalClicks === 0) {
-      console.log('Done');
+      showList();
+      drawChart();
       Image.firstImgEl.removeEventListener('click', handleClick);
       Image.imageContainer.style.display = 'none';
     }
+    randomImage();
+}
+var labelsForClicks = [];
+var totalClicksPerImage = [];
+var clickChart;
 
+function showList() {
+  for (var i = 0; i < Image.all.length; i++) {
+    labelsForClicks.push(Image.all[i].name);
+    totalClicksPerImage.push(Image.all[i].timesClicked);
   }
+}
+
+
+var data = {
+  labels: labelsForClicks,
+  datasets: [
+    {
+      data: totalClicksPerImage,
+      backgroundColor: [
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+        'darkgray',
+        'burlywood',
+        'lightblue',
+        'navy',
+        'bisque',
+          'darkgray',
+          'burlywood',
+          'lightblue',
+
+      ],
+      hoverBackgroundColor: [
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple',
+        'purple'
+      ]
+    }]
+};
+
+function drawChart() {
+  var ctx = document.getElementById('list').getContext('2d');
+  clickChart = new Chart(ctx,{
+    type: 'bar',
+    data: data,
+    options: {
+      responsive: false,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutBounce'
+      }
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          max: 10,
+          min: 0,
+          stepSize: 1.0
+        }
+      }]
+    }
+  });
 
 }
-//each image has event listener
+
+// event listener
 Image.imageContainer.addEventListener('click', handleClick);
 
 randomImage();
