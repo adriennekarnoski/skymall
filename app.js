@@ -5,6 +5,7 @@ function Image(name) {
   this.name = name;
   this.source = '/Users/adriennekarnoski/codefellows/201/skymall/img/' + this.name + '.jpg';
   this.timesShown = 0;
+  this.timesClicked = 0;
   Image.all.push(this);
 };
 
@@ -21,43 +22,62 @@ for (var i = 0; i < Image.allNames.length; i++) {
 Image.firstImgEl = document.getElementById('first_image');
 Image.secondImgEl = document.getElementById('second_image');
 Image.thirdImgEl = document.getElementById('third_image');
+Image.imageContainer = document.getElementById('image_container');
 
 //temporary array holding previous three index numbers
-var thing = [];
+var previousImages = [];
+var totalClicks = 3;
 
 //random image function that also makes sure no three images are same
 //also makes sure sure previous three images are repeated
 function randomImage() {
   //array that holds three indexes
   Image.productsDisplayed = [];
-  console.log('previous three images were ' + thing);
+  console.log('previous three images were ' + previousImages);
   for (var i = 0; i < 3; i++) {
     var randomIndex = Math.floor(Math.random() * Image.all.length);
-      if (Image.productsDisplayed.includes(randomIndex) || thing.includes(randomIndex)) {
+      if (Image.productsDisplayed.includes(randomIndex) || previousImages.includes(randomIndex)) {
         i--;
       } else {
-        thing.push(randomIndex);
+        previousImages.push(randomIndex);
         Image.productsDisplayed.push(randomIndex);
+        Image.all[Image.productsDisplayed[i]].timesShown += 1;
     }
   }
-  var indexZero = Image.productsDisplayed[0];
-  var indexOne = Image.productsDisplayed[1];
-  var indexTwo = Image.productsDisplayed[2];
-
-  Image.firstImgEl.src = Image.all[indexZero].source;
-  Image.secondImgEl.src = Image.all[indexOne].source;
-  Image.thirdImgEl.src = Image.all[indexTwo].source;
+  document.getElementById('click_countdown').innerHTML = totalClicks + ' clicks left';
+  Image.firstImgEl.src = Image.all[Image.productsDisplayed[0]].source;
+  Image.secondImgEl.src = Image.all[Image.productsDisplayed[1]].source;
+  Image.thirdImgEl.src = Image.all[Image.productsDisplayed[2]].source;
+  Image.firstImgEl.alt = Image.all[Image.productsDisplayed[0]].name;
+  Image.secondImgEl.alt = Image.all[Image.productsDisplayed[1]].name;
+  Image.thirdImgEl.alt = Image.all[Image.productsDisplayed[2]].name;
 
   //reverse string before cutting length to three
   //newest numbers appear first
-  thing.reverse();
-  thing.length = 3;
+  previousImages.reverse();
+  previousImages.length = 3;
   console.log('images displayed are ' + [Image.productsDisplayed]);
 }
 
+function handleClick(e) {
+  totalClicks--;
+  for (var i = 0; i < Image.all.length; i++) {
+    if (e.target.alt === Image.all[i].name) {
+      console.log(Image.firstImgEl.alt);
+      Image.all[i].timesClicked += 1;
+      console.log(Image.all[i].timesClicked);
+      randomImage();
+    }
+    if (totalClicks === 0) {
+      console.log('Done');
+      Image.firstImgEl.removeEventListener('click', handleClick);
+      Image.imageContainer.style.display = 'none';
+    }
+
+  }
+
+}
 //each image has event listener
-Image.firstImgEl.addEventListener('click', randomImage);
-Image.secondImgEl.addEventListener('click', randomImage);
-Image.thirdImgEl.addEventListener('click', randomImage);
+Image.imageContainer.addEventListener('click', handleClick);
 
 randomImage();
