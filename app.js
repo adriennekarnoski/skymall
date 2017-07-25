@@ -80,10 +80,15 @@ var totalClicksPerImage = [];
 var clickChart;
 
 function showList() {
+  var ulEl = document.getElementById('views')
   for (var i = 0; i < Image.all.length; i++) {
     labelsForClicks.push(Image.all[i].name);
     totalClicksPerImage.push(Image.all[i].timesClicked);
+    var liEl = document.createElement('li');
+    liEl.textContent = Image.all[i].name + ' was viewed ' + Image.all[i].timesShown + ' times, and was selected ' + Image.all[i].timesClicked + ' time(s).';
+ulEl.appendChild(liEl);
   }
+
 }
 
 
@@ -93,25 +98,26 @@ var data = {
     {
       data: totalClicksPerImage,
       backgroundColor: [
-        'bisque',
-        'darkgray',
-        'burlywood',
-        'lightblue',
-        'navy',
-        'bisque',
-        'darkgray',
-        'burlywood',
-        'lightblue',
-        'navy',
-        'bisque',
-        'darkgray',
-        'burlywood',
-        'lightblue',
-        'navy',
-        'bisque',
-          'darkgray',
-          'burlywood',
-          'lightblue',
+        'lightgray',
+        'silver',
+        'gray',
+        'dimgray',
+        'black',
+        'lightgray',
+        'silver',
+        'gray',
+        'dimgray',
+        'black',
+        'lightgray',
+        'silver',
+        'gray',
+        'dimgray',
+        'black',
+        'lightgray',
+        'silver',
+        'gray',
+        'dimgray',
+        'black',
 
       ],
       hoverBackgroundColor: [
