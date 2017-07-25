@@ -26,7 +26,7 @@ Image.imageContainer = document.getElementById('image_container');
 
 //temporary array holding previous three index numbers
 var previousImages = [];
-var totalClicks = 3;
+var totalClicks = 25;
 
 //random image function that also makes sure no three images are same
 //also makes sure sure previous three images are repeated
