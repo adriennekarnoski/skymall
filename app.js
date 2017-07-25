@@ -3,6 +3,7 @@
 function Image(number) {
   this.name = number;
   this.source = '/Users/adriennekarnoski/codefellows/201/skymall/img/' + this.name + '.jpg';
+  this.timesShown = 0;
   Image.all.push(this);
 };
 
@@ -19,28 +20,38 @@ Image.secondImgEl = document.getElementById('second_image');
 Image.thirdImgEl = document.getElementById('third_image');
 
 
-Image.productsDisplayed = [];
-
 
 function randomImage() {
+Image.productsDisplayed = [];
+
   for (var i = 0; i < 3; i++) {
     var randomIndex = Math.floor(Math.random() * Image.all.length);
     if (Image.productsDisplayed.includes(randomIndex)) {
       i--;
     } else {
       Image.productsDisplayed.push(randomIndex);
-      console.log(randomIndex);
+      // console.log(Image.productsDisplayed[i]);
+      // console.log(randomIndex);
+
       }
     }
 
-}
-randomImage();
-console.log([Image.productsDisplayed]);
-var indexZero = Image.productsDisplayed[0];
-var indexOne = Image.productsDisplayed[1];
-var indexTwo = Image.productsDisplayed[2];
-console.log('index one is ' + indexOne);
 
-Image.firstImgEl.src = Image.all[indexZero].source;
-Image.secondImgEl.src = Image.all[indexOne].source;
-Image.thirdImgEl.src = Image.all[indexTwo].source;
+    var indexZero = Image.productsDisplayed[0];
+    var indexOne = Image.productsDisplayed[1];
+    var indexTwo = Image.productsDisplayed[2];
+
+
+    Image.firstImgEl.src = Image.all[indexZero].source;
+    Image.secondImgEl.src = Image.all[indexOne].source;
+    Image.thirdImgEl.src = Image.all[indexTwo].source;
+
+
+
+}
+console.log('these images are ' + Image.productsDisplayed);
+Image.firstImgEl.addEventListener('click', randomImage);
+Image.secondImgEl.addEventListener('click', randomImage);
+Image.thirdImgEl.addEventListener('click', randomImage);
+// document.getElementById('button').addEventListener('click', randomImage);
+randomImage();
