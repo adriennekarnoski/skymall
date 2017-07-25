@@ -19,12 +19,10 @@ Image.secondImgEl = document.getElementById('second_image');
 Image.thirdImgEl = document.getElementById('third_image');
 
 
+Image.productsDisplayed = [];
 
-// Image.productsDisplayed = [];
 
 function randomImage() {
-  Image.productsDisplayed = [];
-
   for (var i = 0; i < 3; i++) {
     var randomIndex = Math.floor(Math.random() * Image.all.length);
     if (Image.productsDisplayed.includes(randomIndex)) {
@@ -34,31 +32,15 @@ function randomImage() {
       console.log(randomIndex);
       }
     }
-    var indexOne = Image.productsDisplayed[1];
-console.log('index one is ' + indexOne);
-return indexOne;
+
 }
 randomImage();
 console.log([Image.productsDisplayed]);
+var indexZero = Image.productsDisplayed[0];
+var indexOne = Image.productsDisplayed[1];
+var indexTwo = Image.productsDisplayed[2];
+console.log('index one is ' + indexOne);
 
-Image.firstImgEl.src = Image.all[indexOne].source;
-
-// for (var i = 0; i < 3; i++) {
-//   var isProductDisplayed = false;
-//   var randomIndex = Math.floor(Math.random() * Image.all.length);
-//
-//   for (var z = 0; z < productsDisplayed.length; z++) {
-//
-//     if (randomIndex === productsDisplayed[z]) {
-//       isProductDisplayed = true;
-//       i--;
-//     }
-//     if (!isProductedDisplayed) {
-//       productsDisplayed.push(randomIndex);
-//       console.log('what');
-//     }
-//   }
-//   console.log(randomIndex);
-// }
-// console.log([productsDisplayed]);
-// return [productsDisplayed];
+Image.firstImgEl.src = Image.all[indexZero].source;
+Image.secondImgEl.src = Image.all[indexOne].source;
+Image.thirdImgEl.src = Image.all[indexTwo].source;
