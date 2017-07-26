@@ -80,15 +80,22 @@ var totalClicksPerImage = [];
 var clickChart;
 
 function showList() {
-  var ulEl = document.getElementById('views');
-  for (var i = 0; i < Image.all.length; i++) {
+  if (localStorage.storedClickValues) {
+    totalClicksPerImage = JSON.parse(localStorage.storedClickValues);
+    for (var i = 0; i < Image.all.length; i++) {
     labelsForClicks.push(Image.all[i].name);
     totalClicksPerImage.push(Image.all[i].timesClicked);
-    var liEl = document.createElement('li');
-    liEl.textContent = Image.all[i].name + ' was viewed ' + Image.all[i].timesShown + ' times, and was selected ' + Image.all[i].timesClicked + ' time(s).';
-    ulEl.appendChild(liEl);
+    localStorage.storedClickValues = JSON.stringify(totalClicksPerImage);
   }
-}
+  }
+    for (var i = 0; i < Image.all.length; i++) {
+    labelsForClicks.push(Image.all[i].name);
+    totalClicksPerImage.push(Image.all[i].timesClicked);
+    console.log('YES');
+      }
+  localStorage.storedClickValues = JSON.stringify(totalClicksPerImage);
+  }
+
 
 var data = {
   labels: labelsForClicks,
