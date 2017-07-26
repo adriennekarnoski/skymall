@@ -3,7 +3,7 @@
 //object sonstructor
 function Image(name) {
   this.name = name;
-  this.source = '/Users/adriennekarnoski/codefellows/201/skymall/img/' + this.name + '.jpg';
+  this.source = './img/' + this.name + '.jpg';
   this.timesShown = 0;
   this.timesClicked = 0;
   Image.all.push(this);
@@ -37,7 +37,7 @@ function randomImage() {
   for (var i = 0; i < 3; i++) {
     var randomIndex = Math.floor(Math.random() * Image.all.length);
     if (Image.productsDisplayed.includes(randomIndex) || previousImages.includes(randomIndex)) {
-      console.log('dupe');
+      console.log('dupe fixed');
       i--;
     } else {
       previousImages.push(randomIndex);
