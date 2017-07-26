@@ -36,13 +36,13 @@ function randomImage() {
   console.log('previous three images were ' + previousImages);
   for (var i = 0; i < 3; i++) {
     var randomIndex = Math.floor(Math.random() * Image.all.length);
-      if (Image.productsDisplayed.includes(randomIndex) || previousImages.includes(randomIndex)) {
-        console.log('dupe');
-        i--;
-      } else {
-        previousImages.push(randomIndex);
-        Image.productsDisplayed.push(randomIndex);
-        Image.all[Image.productsDisplayed[i]].timesShown++;
+    if (Image.productsDisplayed.includes(randomIndex) || previousImages.includes(randomIndex)) {
+      console.log('dupe');
+      i--;
+    } else {
+      previousImages.push(randomIndex);
+      Image.productsDisplayed.push(randomIndex);
+      Image.all[Image.productsDisplayed[i]].timesShown++;
     }
   }
   document.getElementById('click_countdown').innerHTML = totalClicks + ' clicks left';
@@ -67,30 +67,28 @@ function handleClick(e) {
       Image.all[i].timesClicked++;
     }
   }
-    if (totalClicks === 0) {
-      showList();
-      drawChart();
-      Image.firstImgEl.removeEventListener('click', handleClick);
-      Image.imageContainer.style.display = 'none';
-    }
-    randomImage();
+  if (totalClicks === 0) {
+    showList();
+    drawChart();
+    Image.firstImgEl.removeEventListener('click', handleClick);
+    Image.imageContainer.style.display = 'none';
+  }
+  randomImage();
 }
 var labelsForClicks = [];
 var totalClicksPerImage = [];
 var clickChart;
 
 function showList() {
-  var ulEl = document.getElementById('views')
+  var ulEl = document.getElementById('views');
   for (var i = 0; i < Image.all.length; i++) {
     labelsForClicks.push(Image.all[i].name);
     totalClicksPerImage.push(Image.all[i].timesClicked);
     var liEl = document.createElement('li');
     liEl.textContent = Image.all[i].name + ' was viewed ' + Image.all[i].timesShown + ' times, and was selected ' + Image.all[i].timesClicked + ' time(s).';
-ulEl.appendChild(liEl);
+    ulEl.appendChild(liEl);
   }
-
 }
-
 
 var data = {
   labels: labelsForClicks,
@@ -162,7 +160,6 @@ function drawChart() {
       }]
     }
   });
-
 }
 
 // event listener
