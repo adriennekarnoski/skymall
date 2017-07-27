@@ -60,48 +60,54 @@ function randomImage() {
   console.log('images displayed are ' + [Image.productsDisplayed]);
 }
 
-function handleClick(e) {
-  totalClicks--;
-  for (var i = 0; i < Image.all.length; i++) {
-    if (e.target.alt === Image.all[i].name) {
-      Image.all[i].timesClicked++;
-    }
-  }
-  if (totalClicks === 0) {
-    showList();
-    drawChart();
-    Image.firstImgEl.removeEventListener('click', handleClick);
-    Image.imageContainer.style.display = 'none';
-  }
-  randomImage();
-}
+
+
 var labelsForClicks = [];
 var totalClicksPerImage = [];
+var parseTotalClicks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var clickChart;
 
 function showList() {
   if (localStorage.storedClickValues) {
-    totalClicksPerImage = JSON.parse(localStorage.storedClickValues);
+    parseTotalClicks = JSON.parse(localStorage.storedClickValues);
     for (var i = 0; i < Image.all.length; i++) {
-    labelsForClicks.push(Image.all[i].name);
-    totalClicksPerImage.push(Image.all[i].timesClicked);
-    localStorage.storedClickValues = JSON.stringify(totalClicksPerImage);
-  }
-  }
+      totalClicksPerImage.push(Image.all[i].timesClicked);
+      parseTotalClicks[i] = parseTotalClicks[i] + totalClicksPerImage[i];
+      labelsForClicks.push(Image.all[i].name);
+      localStorage.storedClickValues = JSON.stringify(parseTotalClicks);
+      console.log('I worked');
+    }
+  } else {
     for (var i = 0; i < Image.all.length; i++) {
-    labelsForClicks.push(Image.all[i].name);
-    totalClicksPerImage.push(Image.all[i].timesClicked);
-    console.log('YES');
-      }
-  localStorage.storedClickValues = JSON.stringify(totalClicksPerImage);
+      labelsForClicks.push(Image.all[i].name);
+      totalClicksPerImage.push(Image.all[i].timesClicked);
+      parseTotalClicks[i] = parseTotalClicks[i] + totalClicksPerImage[i];
+    }
+    localStorage.storedClickValues = JSON.stringify(parseTotalClicks);
   }
+}
 
+  function handleClick(e) {
+    totalClicks--;
+    for (var i = 0; i < Image.all.length; i++) {
+      if (e.target.alt === Image.all[i].name) {
+        Image.all[i].timesClicked++;
+      }
+    }
+    if (totalClicks === 0) {
+      showList();
+      drawChart();
+      Image.firstImgEl.removeEventListener('click', handleClick);
+      Image.imageContainer.style.display = 'none';
+    }
+    randomImage();
+  }
 
 var data = {
   labels: labelsForClicks,
   datasets: [
     {
-      data: totalClicksPerImage,
+      data: parseTotalClicks,
       backgroundColor: [
         'lightgray',
         'silver',
