@@ -1,5 +1,5 @@
 'use strict';
-
+var clicks = [];
 //object sonstructor
 function Image(name) {
   this.name = name;
@@ -64,28 +64,14 @@ function randomImage() {
 
 var labelsForClicks = [];
 var totalClicksPerImage = [];
-var parseTotalClicks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var clickChart;
 
 function showList() {
-  if (localStorage.storedClickValues) {
-    parseTotalClicks = JSON.parse(localStorage.storedClickValues);
     for (var i = 0; i < Image.all.length; i++) {
       totalClicksPerImage.push(Image.all[i].timesClicked);
-      parseTotalClicks[i] = parseTotalClicks[i] + totalClicksPerImage[i];
       labelsForClicks.push(Image.all[i].name);
-      localStorage.storedClickValues = JSON.stringify(parseTotalClicks);
-      console.log('I worked');
     }
-  } else {
-    for (var i = 0; i < Image.all.length; i++) {
-      labelsForClicks.push(Image.all[i].name);
-      totalClicksPerImage.push(Image.all[i].timesClicked);
-      parseTotalClicks[i] = parseTotalClicks[i] + totalClicksPerImage[i];
-    }
-    localStorage.storedClickValues = JSON.stringify(parseTotalClicks);
   }
-}
 
   function handleClick(e) {
     totalClicks--;
@@ -95,6 +81,7 @@ function showList() {
       }
     }
     if (totalClicks === 0) {
+      localStorage.storedClickValues = JSON.stringify(Image.all);
       showList();
       drawChart();
       Image.firstImgEl.removeEventListener('click', handleClick);
@@ -107,7 +94,7 @@ var data = {
   labels: labelsForClicks,
   datasets: [
     {
-      data: parseTotalClicks,
+      data: totalClicksPerImage,
       backgroundColor: [
         'lightgray',
         'silver',
@@ -173,6 +160,11 @@ function drawChart() {
       }]
     }
   });
+}
+if (localStorage.storedClickValues) {
+  Image.all = JSON.parse(localStorage.storedClickValues);
+} else {
+  console.log('FUCK MY LIFE');
 }
 
 // event listener
