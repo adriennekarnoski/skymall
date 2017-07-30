@@ -1,12 +1,19 @@
+html {
+  background: blue;
+  font-family: monospace;
+}
+
 h1, h2, h3, p {
   text-align: center;
 }
 
 h1 {
   font-size: 60px;
+  text-transform: uppercase;
+  color: white;
 }
 
-img {
+.product-image {
   height: 300px;
   max-width: 300px;
   overflow: hidden;
@@ -14,9 +21,24 @@ img {
 }
 
 #image_container {
+  width: 80%;
+  text-align: center;
   margin: auto;
+  background: white;
+  border: red double 2px;
 }
 
 canvas {
   margin: auto;
+  background: white;
+  border: red double 2px;
+}
+
+.instructions {
+  width: 80%;
+  margin: auto;
+}
+
+.bus-image {
+  margin-top: 20px;
 }
